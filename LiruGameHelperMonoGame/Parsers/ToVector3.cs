@@ -42,13 +42,13 @@ namespace LiruGameHelperMonoGame.Parsers
                 case 1:
                     bool vParsed = float.TryParse(pointAxes[0], out float v);
                     vector = vParsed ? new Vector3(v) : defaultVector;
-                    return throwException ? throw new ArgumentException($"Could not parse {pointAxes[0]} into a float for vector.") : vParsed;
+                    return throwException && !vParsed ? throw new ArgumentException($"Could not parse {pointAxes[0]} into a float for vector.") : vParsed;
                 case 3:
                     bool xParsed = float.TryParse(pointAxes[0], out float x);
                     bool yParsed = float.TryParse(pointAxes[1], out float y);
                     bool zParsed = float.TryParse(pointAxes[2], out float z);
                     vector = xParsed && yParsed && zParsed ? new Vector3(x, y, z) : defaultVector;
-                    return throwException ? throw new ArgumentException($"Could not parse {input} into a vector.") : xParsed && yParsed && zParsed;
+                    return throwException && !(xParsed && yParsed && zParsed) ? throw new ArgumentException($"Could not parse {input} into a vector.") : xParsed && yParsed && zParsed;
                 default:
                     throw new Exception("Vector had an invalid number of components.");
             }

@@ -45,21 +45,74 @@ namespace LiruGameHelper.XML
             if (node is null) throw new ArgumentNullException("node", "Given XMLNode cannot be null.");
 
             // Get the attribute from the node.
-            var nodeAttribute = node.Attributes.GetNamedItem(attributeName);
+            XmlNode nodeAttribute = node.Attributes.GetNamedItem(attributeName);
 
             // If the attribute does not exist, set the out string to empty and return false.
-            if (nodeAttribute is null)
+            if (nodeAttribute == null)
             {
                 value = string.Empty;
                 return false;
             }
-
             // Otherwise, set the out string to the attribute and return true.
             else
             {
                 value = nodeAttribute.Value;
                 return true;
             }
+        }
+
+        public static bool GetAttributeList(this XmlNode node, string attributeName, out string[] values, char separator = ',')
+        {
+            // If the given node is null, throw an exception.
+            if (node is null) throw new ArgumentNullException("node", "Given XMLNode cannot be null.");
+
+            // Get the attribute from the node, if it does not exist then return false.
+            if (!GetAttributeValue(node, attributeName, out string listValue))
+            {
+                values = null;
+                return false;
+            }
+
+            // Split the attribute value.
+            values = listValue.Split(separator);
+
+            // Return true.
+            return true;
+        }
+
+        public static T[] ParseAttributeListValue<T>(this XmlNode node, string attributeName, Func<string, T> parser, char separator = ',')
+        {
+            // Try to get a list of the values in string form, if it cannot be done then return false.
+            if (!node.GetAttributeList(attributeName, out string[] stringValues, separator))
+                return null;
+
+            // Parse each value.
+            T[] values = new T[stringValues.Length];
+            for (int i = 0; i < stringValues.Length; i++)
+                values[i] = parser(stringValues[i]);
+
+            // Return the list.
+            return values;
+        }
+
+        public static bool TryParseAttributeListValue<T>(this XmlNode node, string attributeName, TryParse<T> parser, out T[] values, out int failedIndex, char separator = ',')
+        {
+            // Try to get a list of the values in string form, if it cannot be done then return false.
+            if (!node.GetAttributeList(attributeName, out string[] stringValues, separator))
+            {
+                values = null;
+                failedIndex = -1;
+                return false;
+            }
+
+            // Try parse each value.
+            values = new T[stringValues.Length];
+            for (failedIndex = 0; failedIndex < stringValues.Length; failedIndex++)
+                if (!parser(stringValues[failedIndex], out T value)) { return false; }
+                else values[failedIndex] = value;
+
+            // Return true as the parse was successful.
+            return true;
         }
     }
 }
