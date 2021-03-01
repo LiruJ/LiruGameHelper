@@ -81,9 +81,9 @@ namespace LiruGameHelper.Reflection
             return componentType;
         }
 
-        public T CreateInstance(string name, IServiceProvider serviceProvider = null) => (T)Dependencies.CreateObjectWithDependencies(GetConstructor(name), serviceProvider);
+        public T CreateInstance(string name, IServiceProvider serviceProvider = null, object[] inputs = null) => (T)Dependencies.CreateObjectWithDependencies(GetConstructor(name), serviceProvider, inputs);
 
-        public T1 CreateInstance<T1>(string name, IServiceProvider serviceProvider = null) where T1 : T => (T1)CreateInstance(name, serviceProvider);
+        public T1 CreateInstance<T1>(string name, IServiceProvider serviceProvider = null, object[] inputs = null) where T1 : T => (T1)CreateInstance(name, serviceProvider, inputs);
 
         public T CreateInstance(string name, params object[] parameters) => (T)GetConstructor(name).Invoke(parameters);
 

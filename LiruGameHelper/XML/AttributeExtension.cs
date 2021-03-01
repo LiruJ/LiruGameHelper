@@ -9,6 +9,13 @@ namespace LiruGameHelper.XML
         public delegate bool TryParse<T>(string input, out T output);
         #endregion
 
+        public static void AddAttribute(this XmlNode node, string name, object value)
+        {
+            XmlAttribute attribute = node.OwnerDocument.CreateAttribute(name);
+            attribute.Value = value.ToString();
+            node.Attributes.Append(attribute);
+        }
+
         public static T ParseAttributeValue<T>(this XmlNode node, string attributeName, Func<string, T> parser)
         {
             // Get the string value.
@@ -37,7 +44,7 @@ namespace LiruGameHelper.XML
             => node.TryParseAttributeValue<T>(attributeName, parser, out output) ? output : defaultTo;
 
         public static string GetAttributeValue(this XmlNode node, string attributeName)
-            => (node == null || !node.GetAttributeValue(attributeName, out string value) || string.IsNullOrWhiteSpace(value)) ? throw new FormatException($"{node?.Name}'s {attributeName} could not be parsed.") : value;
+            => (node == null || !node.GetAttributeValue(attributeName, out string value)) ? throw new FormatException($"{node?.Name}'s {attributeName} could not be parsed.") : value;
 
         public static bool GetAttributeValue(this XmlNode node, string attributeName, out string value)
         {
