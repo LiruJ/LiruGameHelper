@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Xml;
 
 namespace LiruGameHelper.XML
@@ -13,6 +14,18 @@ namespace LiruGameHelper.XML
         {
             XmlAttribute attribute = node.OwnerDocument.CreateAttribute(name);
             attribute.Value = value.ToString();
+            node.Attributes.Append(attribute);
+        }
+
+        public static void AddAttributeList<T>(this XmlNode node, string name, IReadOnlyCollection<T> values, char separator = ',')
+        {
+            XmlAttribute attribute = node.OwnerDocument.CreateAttribute(name);
+
+            string listString = "";
+            foreach (T value in values)
+                listString += value.ToString() + separator + ' ';
+            
+            attribute.Value = listString.Length == 0 ? listString : listString.Remove(listString.Length - 2);
             node.Attributes.Append(attribute);
         }
 
@@ -33,23 +46,27 @@ namespace LiruGameHelper.XML
             // Try get the string value.
             if (!GetAttributeValue(node, attributeName, out string input)) { output = default; return false; }
 
-            // Try parse the string value.
-            if (!parser(input, out output)) return false;
-
-            // Return the parsed value.
-            return true;
+            // Try parse the string value and return the result.
+            return parser(input, out output);
         }
 
-        public static T ParseAttributeValueOrDefault<T>(this XmlNode node, string attributeName, TryParse<T> parser, out T output, T defaultTo) 
-            => node.TryParseAttributeValue<T>(attributeName, parser, out output) ? output : defaultTo;
+        public static bool ParseAttributeValueOrDefault<T>(this XmlNode node, string attributeName, TryParse<T> parser, out T output, T defaultTo)
+        {
+            if (!node.TryParseAttributeValue(attributeName, parser, out output))
+            {
+                output = defaultTo;
+                return false;
+            }
+            else return true;
+        }
 
         public static string GetAttributeValue(this XmlNode node, string attributeName)
-            => (node == null || !node.GetAttributeValue(attributeName, out string value)) ? throw new FormatException($"{node?.Name}'s {attributeName} could not be parsed.") : value;
+            => (node == null || !node.GetAttributeValue(attributeName, out string value)) ? throw new FormatException($"{node?.Name}'s {attributeName} could not be parsed.") : value.Replace(@"\n", Environment.NewLine);
 
         public static bool GetAttributeValue(this XmlNode node, string attributeName, out string value)
         {
             // If the given node is null, throw an exception.
-            if (node is null) throw new ArgumentNullException("node", "Given XMLNode cannot be null.");
+            if (node == null) throw new ArgumentNullException("node", "Given XMLNode cannot be null.");
 
             // Get the attribute from the node.
             XmlNode nodeAttribute = node.Attributes.GetNamedItem(attributeName);
@@ -74,7 +91,7 @@ namespace LiruGameHelper.XML
             if (node is null) throw new ArgumentNullException("node", "Given XMLNode cannot be null.");
 
             // Get the attribute from the node, if it does not exist then return false.
-            if (!GetAttributeValue(node, attributeName, out string listValue))
+            if (!GetAttributeValue(node, attributeName, out string listValue) || string.IsNullOrWhiteSpace(listValue))
             {
                 values = null;
                 return false;
@@ -82,6 +99,10 @@ namespace LiruGameHelper.XML
 
             // Split the attribute value.
             values = listValue.Split(separator);
+
+            // Trim whitespace.
+            for (int i = 0; i < values.Length; i++)
+                 values[i] = values[i].Trim();
 
             // Return true.
             return true;

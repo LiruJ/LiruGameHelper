@@ -18,13 +18,13 @@ namespace LiruGameHelper.Reflection
             {
                 object dependency = serviceProvider.GetService(parameters[i].ParameterType);
 
-                // If the paramater is not supported and cannot be supplied by the service provider, try get the input instead.
+                // If the parameter is not supported and cannot be supplied by the service provider, try get the input instead.
                 if (dependency == null)
                 {
                     // If inputs were given, go over each one until the valid type is found.
                     if (inputs != null)
                         foreach (object input in inputs)
-                            if (Inheritance.DerivesFrom(parameters[i].ParameterType, input.GetType()))
+                            if (parameters[i].ParameterType.IsAssignableFrom(input.GetType()))
                             {
                                 dependency = input;
                                 break;
@@ -77,7 +77,13 @@ namespace LiruGameHelper.Reflection
             object[] parameters = ResolveConstructorParameters(constructor, serviceProvider, inputs);
 
             // Create and return the object.
+#if DEBUG
+            try { return constructor.Invoke(parameters); }
+            catch (TargetInvocationException targetException) { throw targetException.InnerException; }
+            catch (Exception exception) { throw exception; }
+#elif RELEASE
             return constructor.Invoke(parameters);
+#endif
         }
     }
 }
