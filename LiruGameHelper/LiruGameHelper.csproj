@@ -3,6 +3,30 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
 	  <Version>1.0.0.0</Version>
+	  <Authors>Liru</Authors>
+	  <Product>Liru Game Helper</Product>
+	  <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+	  <RepositoryUrl>https://github.com/LiruJ/LiruGameHelper</RepositoryUrl>
+	  <RepositoryType>git</RepositoryType>
+	  <PackageTags>MonoGame</PackageTags>
+	  <NeutralLanguage>English (United Kingdom)</NeutralLanguage>
+	  <Copyright>Lovebirb (c) 2021</Copyright>
+	  <PackageLicenseFile>License.txt</PackageLicenseFile>
+	  <Description>A tool designed to help with game creation. Includes some reflection helpers, a Signal class to replace standard events, and XML extensions for easy loading and saving of data.</Description>
+	  <PackageIcon>LowResLogo NoOutline.png</PackageIcon>
+	  <PackageId>Lovebirb.LiruGameHelper</PackageId>
+	  <Company>Lovebirb</Company>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\License.txt">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+    <None Include="C:\Users\liruo\Documents\Lovebirb\Logo\New\LowResLogo NoOutline.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
 
 </Project>
