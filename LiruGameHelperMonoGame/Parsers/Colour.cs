@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
+using System.Globalization;
 using System.Reflection;
 
 namespace LiruGameHelperMonoGame.Parsers
@@ -12,8 +13,6 @@ namespace LiruGameHelperMonoGame.Parsers
         private const char hexChar = '#';
 
         private const char rgbChar = '*';
-
-        private const char splitChar = ',';
         #endregion
 
         #region Public Parse Functions
@@ -85,14 +84,14 @@ namespace LiruGameHelperMonoGame.Parsers
             int maxValue = (int)Math.Pow(16, valueLength) - 1;
 
             // Parse the RGB values.
-            if (!int.TryParse(input.Substring(0, valueLength), System.Globalization.NumberStyles.HexNumber, null, out int red)) return throwException ? throw new FormatException("Red was invalid, must be a valid hex byte.") : false;
-            if (!int.TryParse(input.Substring(valueLength, valueLength), System.Globalization.NumberStyles.HexNumber, null, out int green)) return throwException ? throw new FormatException("Green was invalid, must be a valid hex byte.") : false;
-            if (!int.TryParse(input.Substring(valueLength * 2, valueLength), System.Globalization.NumberStyles.HexNumber, null, out int blue)) return throwException ? throw new FormatException("Blue was invalid, must be a valid hex byte.") : false;
+            if (!int.TryParse(input.Substring(0, valueLength), NumberStyles.HexNumber, ParserSettings.FormatProvider, out int red)) return throwException ? throw new FormatException("Red was invalid, must be a valid hex byte.") : false;
+            if (!int.TryParse(input.Substring(valueLength, valueLength), NumberStyles.HexNumber, ParserSettings.FormatProvider, out int green)) return throwException ? throw new FormatException("Green was invalid, must be a valid hex byte.") : false;
+            if (!int.TryParse(input.Substring(valueLength * 2, valueLength), NumberStyles.HexNumber, ParserSettings.FormatProvider, out int blue)) return throwException ? throw new FormatException("Blue was invalid, must be a valid hex byte.") : false;
 
             // Parse the alpha if one was given, otherwise default to the max value.
             int alpha;
             if (!hasAlpha) alpha = maxValue;
-            else if (!int.TryParse(input.Substring(valueLength * 3, valueLength), System.Globalization.NumberStyles.HexNumber, null, out alpha)) return throwException ? throw new FormatException("Alpha was invalid, must be a valid hex byte.") : false;
+            else if (!int.TryParse(input.Substring(valueLength * 3, valueLength), NumberStyles.HexNumber, ParserSettings.FormatProvider, out alpha)) return throwException ? throw new FormatException("Alpha was invalid, must be a valid hex byte.") : false;
 
             // Create the colour and return true.
             colour = new Color((float)red / maxValue, (float)green / maxValue, (float)blue / maxValue, (float)alpha / maxValue);
@@ -105,17 +104,17 @@ namespace LiruGameHelperMonoGame.Parsers
             input = input.TrimStart(rgbChar);
 
             // Split the input string by commas.
-            string[] rgbaInputs = input.Split(splitChar);
+            string[] rgbaInputs = input.Split(ParserSettings.Separator);
             string alphaInput = (rgbaInputs.Length >= 4) ? rgbaInputs[3] : byte.MaxValue.ToString();
 
             // If the input string has three or more inputs, parse it.
             if (rgbaInputs.Length >= 3)
             {
                 // Parse the red, green, blue, and alpha into a colour, then return true.
-                if (!byte.TryParse(rgbaInputs[0], out byte red))    { colour = defaultColour; return throwException ? throw new FormatException("Red was invalid, must be a valid byte.")   : false; }
-                if (!byte.TryParse(rgbaInputs[1], out byte green))  { colour = defaultColour; return throwException ? throw new FormatException("Green was invalid, must be a valid byte.") : false; }
-                if (!byte.TryParse(rgbaInputs[2], out byte blue))   { colour = defaultColour; return throwException ? throw new FormatException("Blue was invalid, must be a valid byte.")  : false; }
-                if (!byte.TryParse(alphaInput,    out byte alpha))  { colour = defaultColour; return throwException ? throw new FormatException("Alpha was invalid, must be a valid byte.") : false; }
+                if (!byte.TryParse(rgbaInputs[0], NumberStyles.Integer, ParserSettings.FormatProvider, out byte red))    { colour = defaultColour; return throwException ? throw new FormatException("Red was invalid, must be a valid byte.")   : false; }
+                if (!byte.TryParse(rgbaInputs[1], NumberStyles.Integer, ParserSettings.FormatProvider, out byte green))  { colour = defaultColour; return throwException ? throw new FormatException("Green was invalid, must be a valid byte.") : false; }
+                if (!byte.TryParse(rgbaInputs[2], NumberStyles.Integer, ParserSettings.FormatProvider, out byte blue))   { colour = defaultColour; return throwException ? throw new FormatException("Blue was invalid, must be a valid byte.")  : false; }
+                if (!byte.TryParse(alphaInput, NumberStyles.Integer, ParserSettings.FormatProvider, out byte alpha))  { colour = defaultColour; return throwException ? throw new FormatException("Alpha was invalid, must be a valid byte.") : false; }
                 colour = new Color(red, green, blue, alpha);
                 return true;
             }

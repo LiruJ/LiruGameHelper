@@ -1,9 +1,13 @@
 ﻿using System;
+using System.Globalization;
 
 namespace LiruGameHelperMonoGame.Parsers
 {
     public static class Relative
     {
+        #region Public Parse Functions
+        public static bool TryParse(string input, out float value, out bool relative) => tryParse(input, out value, out relative, false);
+
         public static float Parse(string input, out bool relative)
         {
             // Try to parse the relative, with exceptions being thrown.
@@ -12,9 +16,9 @@ namespace LiruGameHelperMonoGame.Parsers
             // Return the relative.
             return value;
         }
+        #endregion
 
-        public static bool TryParse(string input, out float value, out bool relative) => tryParse(input, out value, out relative, false);
-
+        #region Private Parse Functions
         private static bool tryParse(string input, out float value, out bool relative, bool throwException = false)
         {
             // If the input is empty or null, throw an exception or set the output to (false, 0) and return false.
@@ -33,17 +37,18 @@ namespace LiruGameHelperMonoGame.Parsers
             if (relative) input = input.TrimEnd('%');
 
             // Parse the string as a float. If it does not parse, throw an exception or set the output to (false, 0) and return false.
-            if (!float.TryParse(input, out value))
+            if (!float.TryParse(input, NumberStyles.Float, ParserSettings.FormatProvider, out value))
             {
                 if (throwException) throw new FormatException("Relative value must be a regular float value, with a '%' sign if desired.");
                 else { relative = false; value = 0.0f; return false; }
             }
 
             // If the input is relative, divide it by 100 to get the float value.
-            if (relative) value /= 100;
+            if (relative) value /= 100f;
 
             // Return true as the parse operation was successful.
             return true;
         }
+        #endregion
     }
 }

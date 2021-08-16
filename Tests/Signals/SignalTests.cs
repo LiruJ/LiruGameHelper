@@ -1,6 +1,4 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
 
 namespace LiruGameHelper.Signals.Tests
 {
@@ -30,7 +28,9 @@ namespace LiruGameHelper.Signals.Tests
             signal.Invoke();
 
             // Try to disconnect the connection.
+#if DEBUG
             Assert.ThrowsException<Exceptions.InvalidDisconnectionException>(() => connection.Disconnect());
+#endif
 
             signal2.Invoke(0);
             signal2.Invoke(0);

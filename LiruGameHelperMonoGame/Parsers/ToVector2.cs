@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
+using System.Globalization;
 
 namespace LiruGameHelperMonoGame.Parsers
 {
@@ -7,8 +8,6 @@ namespace LiruGameHelperMonoGame.Parsers
     {
         #region Constants
         private static Vector2 defaultVector = Vector2.Zero;
-
-        private const char splitChar = ',';
         #endregion
 
         #region Public Parse Functions
@@ -34,18 +33,18 @@ namespace LiruGameHelperMonoGame.Parsers
             input = input.Trim();
 
             // Split the input into the separate values.
-            string[] pointAxes = input.Split(splitChar);
+            string[] pointAxes = input.Split(ParserSettings.Separator);
 
             // Handle the length.
             switch (pointAxes.Length)
             {
                 case 1:
-                    bool vParsed = float.TryParse(pointAxes[0], out float v);
+                    bool vParsed = float.TryParse(pointAxes[0], NumberStyles.Float, ParserSettings.FormatProvider, out float v);
                     vector = vParsed ? new Vector2(v) : defaultVector;
                     return throwException && !vParsed ? throw new ArgumentException($"Could not parse {pointAxes[0]} into a float for vector.") : vParsed;
                 case 2:
-                    bool xParsed = float.TryParse(pointAxes[0], out float x);
-                    bool yParsed = float.TryParse(pointAxes[1], out float y);
+                    bool xParsed = float.TryParse(pointAxes[0], NumberStyles.Float, ParserSettings.FormatProvider, out float x);
+                    bool yParsed = float.TryParse(pointAxes[1], NumberStyles.Float, ParserSettings.FormatProvider, out float y);
                     vector = xParsed && yParsed ? new Vector2(x, y) : defaultVector;
                     return throwException && !(xParsed && yParsed) ? throw new ArgumentException($"Could not parse {input} into a vector.") : xParsed && yParsed;
                 default:

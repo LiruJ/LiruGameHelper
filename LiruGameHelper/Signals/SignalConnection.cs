@@ -4,7 +4,7 @@ namespace LiruGameHelper.Signals
 {
     public struct SignalConnection
     {
-        #region ID Properties
+        #region Properties
         /// <summary> The ID of this connection, represents the index of a binding. </summary>
         internal int ID { get; private set; }
 
@@ -12,21 +12,9 @@ namespace LiruGameHelper.Signals
         internal int BirthID { get; private set; }
         #endregion
 
-        #region SIGNAL PROPERTIES
+        #region Internal Fields
         /// <summary> The signal that contains the binding of this connection. </summary>
         internal ISignal connectedSignal;
-        #endregion
-
-        #region Connection Functions
-        /// <summary> Disconnects the binding from the underlying signal. </summary>
-        public void Disconnect()
-        {
-            // If the connected signal is null, it is probably an empty struct, so do nothing.
-            if (connectedSignal == null) return;
-
-            // Disconnect the signal
-            connectedSignal.Disconnect(this);
-        }
         #endregion
 
         #region Constructors
@@ -46,6 +34,18 @@ namespace LiruGameHelper.Signals
 
             //If the given signal is null, throw an error, otherwise set the Signal property
             connectedSignal = signal ?? throw new ArgumentNullException("Given Signal cannot be null.");
+        }
+        #endregion
+
+        #region Connection Functions
+        /// <summary> Disconnects the binding from the underlying signal. </summary>
+        public void Disconnect()
+        {
+            // If the connected signal is null, it is probably an empty struct, so do nothing.
+            if (connectedSignal == null) return;
+
+            // Disconnect the signal
+            connectedSignal.Disconnect(this);
         }
         #endregion
     }

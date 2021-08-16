@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
+using System.Globalization;
 
 namespace LiruGameHelperMonoGame.Parsers
 {
@@ -7,8 +8,6 @@ namespace LiruGameHelperMonoGame.Parsers
     {
         #region Constants
         private static Vector3 defaultVector = Vector3.Zero;
-
-        private const char splitChar = ',';
         #endregion
 
         #region Public Parse Functions
@@ -34,19 +33,19 @@ namespace LiruGameHelperMonoGame.Parsers
             input = input.Trim();
 
             // Split the input into the separate values.
-            string[] pointAxes = input.Split(splitChar);
+            string[] pointAxes = input.Split(ParserSettings.Separator);
 
             // Handle the length.
             switch (pointAxes.Length)
             {
                 case 1:
-                    bool vParsed = float.TryParse(pointAxes[0], out float v);
+                    bool vParsed = float.TryParse(pointAxes[0], NumberStyles.Float, ParserSettings.FormatProvider, out float v);
                     vector = vParsed ? new Vector3(v) : defaultVector;
                     return throwException && !vParsed ? throw new ArgumentException($"Could not parse {pointAxes[0]} into a float for vector.") : vParsed;
                 case 3:
-                    bool xParsed = float.TryParse(pointAxes[0], out float x);
-                    bool yParsed = float.TryParse(pointAxes[1], out float y);
-                    bool zParsed = float.TryParse(pointAxes[2], out float z);
+                    bool xParsed = float.TryParse(pointAxes[0], NumberStyles.Float, ParserSettings.FormatProvider, out float x);
+                    bool yParsed = float.TryParse(pointAxes[1], NumberStyles.Float, ParserSettings.FormatProvider, out float y);
+                    bool zParsed = float.TryParse(pointAxes[2], NumberStyles.Float, ParserSettings.FormatProvider, out float z);
                     vector = xParsed && yParsed && zParsed ? new Vector3(x, y, z) : defaultVector;
                     return throwException && !(xParsed && yParsed && zParsed) ? throw new ArgumentException($"Could not parse {input} into a vector.") : xParsed && yParsed && zParsed;
                 default:

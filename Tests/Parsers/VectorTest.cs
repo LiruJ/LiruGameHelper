@@ -1,8 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Globalization;
 
 namespace LiruGameHelperMonoGame.Parsers.Tests
 {
@@ -39,6 +37,24 @@ namespace LiruGameHelperMonoGame.Parsers.Tests
             Vector3 vector = new Vector3(74, 102, -50);
             Vector3 output = ToVector3.Parse("74, 102, -50");
             Assert.AreEqual(vector, output, $"The expected vector ({vector}) did not match the returned vector ({output}).");
+        }
+
+        [TestMethod]
+        public void ThreeValueDecimalTest()
+        {
+            // Save the current culture.
+            CultureInfo currentCulture = CultureInfo.CurrentCulture;
+
+            // Set the culture to German, as it uses the ',' character for decimal places which should break parsing if not accounted for.
+            CultureInfo.CurrentCulture = CultureInfo.CreateSpecificCulture("de-DE");
+
+            Vector3 vector = new Vector3(74.67f, 102.12f, -50.0582f);
+            Vector3 output = ToVector3.Parse("74.67, 102.12, -50.0582");
+
+            // Set the culture back so that the error message displays correctly.
+            CultureInfo.CurrentCulture = currentCulture;
+
+            Assert.AreEqual(vector, output);
         }
     }
 }
