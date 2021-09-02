@@ -18,6 +18,10 @@
 	  <Company>Lovebirb</Company>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>G:\Projects\Game Dev\LiruGameHelper\Code\LiruGameHelper\LiruGameHelper.xml</DocumentationFile>
+  </PropertyGroup>
+
   <ItemGroup>
     <None Include="..\License.txt">
       <Pack>True</Pack>

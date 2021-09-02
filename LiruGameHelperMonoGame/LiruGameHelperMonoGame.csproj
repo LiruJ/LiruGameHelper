@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-	<Version>1.0.1</Version>
+	<Version>1.1.0</Version>
 	<Description>A tool designed to help with game creation with MonoGame. Includes functions to parse various MonoGame structures from string.</Description>
 	<Product>Liru Game Helper MonoGame</Product>
 	<Authors>Liru</Authors>
@@ -17,6 +17,10 @@
 	<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
 	<PackageTags>MonoGame</PackageTags>
 	<NeutralLanguage>en-GB</NeutralLanguage>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>G:\Projects\Game Dev\LiruGameHelper\Code\LiruGameHelperMonoGame\LiruGameHelperMonoGame.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
