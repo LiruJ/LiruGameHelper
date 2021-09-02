@@ -1,0 +1,177 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>LiruGameHelper</name>
+    </assembly>
+    <members>
+        <member name="T:LiruGameHelper.Exceptions.InvalidGameStateException">
+            <summary> Should be used for when the game tries to execute a command in the wrong state. For example, the game trying to open the inventory when on the main menu. </summary>
+        </member>
+        <member name="M:LiruGameHelper.Reflection.ConstructorCache`1.RegisterNamespace(System.Reflection.Assembly,System.String)">
+            <summary> Registers all the <see cref="T:System.Type"/>s in the given <paramref name="namespacePath"/> in the given <paramref name="assembly"/>. </summary>
+            <param name="assembly"> The <see cref="T:System.Reflection.Assembly"/> in which the <see cref="T:System.Type"/>s are defined. </param>
+            <param name="namespacePath"> The namespace of the <see cref="T:System.Type"/>s. </param>
+        </member>
+        <member name="T:LiruGameHelper.Signals.ISignal">
+            <summary> Allows for SignalConnections to disconnect without having access to any other functions. </summary>
+        </member>
+        <member name="P:LiruGameHelper.Signals.Binding.OneTime">
+            <summary> <c>true</c> if the bound event should only fire once. </summary>
+        </member>
+        <member name="P:LiruGameHelper.Signals.Binding.ID">
+            <summary> The ID of the binding. </summary>
+        </member>
+        <member name="P:LiruGameHelper.Signals.Binding.Action">
+            <summary> The action bound to the ID. </summary>
+        </member>
+        <member name="P:LiruGameHelper.Signals.Binding`1.OneTime">
+            <summary> <c>true</c> if the bound event should only fire once. </summary>
+        </member>
+        <member name="P:LiruGameHelper.Signals.Binding`1.ID">
+            <summary> The ID of the binding, represents the index within the signal. </summary>
+        </member>
+        <member name="P:LiruGameHelper.Signals.Binding`1.Action">
+            <summary> The action bound to the ID. </summary>
+        </member>
+        <member name="P:LiruGameHelper.Signals.Binding`2.OneTime">
+            <summary> <c>true</c> if the bound event should only fire once. </summary>
+        </member>
+        <member name="P:LiruGameHelper.Signals.Binding`2.ID">
+            <summary> The ID of the binding. </summary>
+        </member>
+        <member name="P:LiruGameHelper.Signals.Binding`2.Action">
+            <summary> The action bound to the ID. </summary>
+        </member>
+        <member name="T:LiruGameHelper.Signals.Signal">
+            <summary> Represents a Signal with no return value and no parameters. </summary>
+        </member>
+        <member name="F:LiruGameHelper.Signals.Signal.EmptyIndex">
+            <summary> Used to represent an array position with no contents. </summary>
+        </member>
+        <member name="F:LiruGameHelper.Signals.Signal.bindings">
+            <summary> The array of functions that are bound to this signal. </summary>
+        </member>
+        <member name="F:LiruGameHelper.Signals.Signal.bindingsCopy">
+            <summary> A collection of bindings that is populated from the main collection every time <see cref="M:LiruGameHelper.Signals.Signal.Invoke"/> is called. </summary>
+        </member>
+        <member name="F:LiruGameHelper.Signals.Signal.totalBindings">
+            <summary> The total amount of functions that have been bound to this signal, including the ones that were removed. </summary>
+        </member>
+        <member name="F:LiruGameHelper.Signals.Signal.currentBindings">
+            <summary> The current amount of functions bound to this signal. </summary>
+        </member>
+        <member name="F:LiruGameHelper.Signals.Signal.emptyIndices">
+            <summary> Tracks which indices of the bindings array are empty, so they can be reused. </summary>
+        </member>
+        <member name="P:LiruGameHelper.Signals.Signal.BindingsCount">
+            <summary> The total number of bindings this signal has. </summary>
+        </member>
+        <member name="M:LiruGameHelper.Signals.Signal.Connect(System.Action)">
+            <summary> Connect the given function to this signal, calling it when the signal is invoked. </summary>
+            <param name="action"> The function to add. </param>
+            <returns> A <see cref="T:LiruGameHelper.Signals.SignalConnection"/> for the created binding. </returns>
+        </member>
+        <member name="M:LiruGameHelper.Signals.Signal.ConnectOneTime(System.Action)">
+            <summary> Connect the given function to this <see cref="T:LiruGameHelper.Signals.Signal"/>, calling it when invoked then immediately disconnecting. </summary>
+            <param name="action"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LiruGameHelper.Signals.Signal.Disconnect(LiruGameHelper.Signals.SignalConnection)">
+            <summary> Disconnects the given connection. connection.Disconnect() is also valid. </summary>
+            <param name="connection"> The connection to disconnect. </param>
+        </member>
+        <member name="M:LiruGameHelper.Signals.Signal.Invoke">
+            <summary> Calls all of the bound functions. </summary>
+        </member>
+        <member name="F:LiruGameHelper.Signals.Signal`1.bindings">
+            <summary> The array of functions that are bound to this signal. </summary>
+        </member>
+        <member name="F:LiruGameHelper.Signals.Signal`1.bindingsCopy">
+            <summary> A collection of bindings that is populated from the main collection every time <see cref="M:LiruGameHelper.Signals.Signal`1.Invoke(`0)"/> is called. </summary>
+        </member>
+        <member name="F:LiruGameHelper.Signals.Signal`1.totalBindings">
+            <summary> The total amount of functions that have been bound to this signal, including the ones that were removed. </summary>
+        </member>
+        <member name="F:LiruGameHelper.Signals.Signal`1.currentBindings">
+            <summary> The current amount of functions bound to this signal. </summary>
+        </member>
+        <member name="F:LiruGameHelper.Signals.Signal`1.emptyIndices">
+            <summary> Tracks which indices of the bindings array are empty, so they can be reused. </summary>
+        </member>
+        <member name="P:LiruGameHelper.Signals.Signal`1.BindingsCount">
+            <summary> The total number of bindings this signal has. </summary>
+        </member>
+        <member name="M:LiruGameHelper.Signals.Signal`1.Connect(System.Action{`0})">
+            <summary> Connect the given function to this signal, calling it when the signal is invoked. </summary>
+            <param name="action"> The function to add. </param>
+            <returns> A <see cref="T:LiruGameHelper.Signals.SignalConnection"/> for the created binding. </returns>
+        </member>
+        <member name="M:LiruGameHelper.Signals.Signal`1.ConnectOneTime(System.Action{`0})">
+            <summary> Connect the given function to this <see cref="T:LiruGameHelper.Signals.Signal`1"/>, calling it when invoked then immediately disconnecting. </summary>
+            <param name="action"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LiruGameHelper.Signals.Signal`1.Disconnect(LiruGameHelper.Signals.SignalConnection)">
+            <summary> Disconnects the given connection. connection.Disconnect() is also valid. </summary>
+            <param name="connection"> The connection to disconnect. </param>
+        </member>
+        <member name="M:LiruGameHelper.Signals.Signal`1.Invoke(`0)">
+            <summary> Calls all of the bound functions with the given argument. </summary>
+            <param name="input"> The given argument. </param>
+        </member>
+        <member name="F:LiruGameHelper.Signals.Signal`2.bindings">
+            <summary> The array of functions that are bound to this signal. </summary>
+        </member>
+        <member name="F:LiruGameHelper.Signals.Signal`2.bindingsCopy">
+            <summary> A collection of bindings that is populated from the main collection every time <see cref="M:LiruGameHelper.Signals.Signal`2.Invoke(`0,`1)"/> is called. </summary>
+        </member>
+        <member name="F:LiruGameHelper.Signals.Signal`2.totalBindings">
+            <summary> The total amount of functions that have been bound to this signal, including the ones that were removed. </summary>
+        </member>
+        <member name="F:LiruGameHelper.Signals.Signal`2.currentBindings">
+            <summary> The current amount of functions bound to this signal. </summary>
+        </member>
+        <member name="F:LiruGameHelper.Signals.Signal`2.emptyIndices">
+            <summary> Tracks which indices of the bindings array are empty, so they can be reused. </summary>
+        </member>
+        <member name="P:LiruGameHelper.Signals.Signal`2.BindingsCount">
+            <summary> The total number of bindings this signal has. </summary>
+        </member>
+        <member name="M:LiruGameHelper.Signals.Signal`2.Connect(System.Action{`0,`1})">
+            <summary> Connect the given function to this signal, calling it when the signal is invoked. </summary>
+            <param name="action"> The function to add. </param>
+            <returns> A <see cref="T:LiruGameHelper.Signals.SignalConnection"/> for the created binding. </returns>
+        </member>
+        <member name="M:LiruGameHelper.Signals.Signal`2.ConnectOneTime(System.Action{`0,`1})">
+            <summary> Connect the given function to this <see cref="T:LiruGameHelper.Signals.Signal`1"/>, calling it when invoked then immediately disconnecting. </summary>
+            <param name="action"></param>
+            <returns></returns>
+        </member>
+        <member name="M:LiruGameHelper.Signals.Signal`2.Disconnect(LiruGameHelper.Signals.SignalConnection)">
+            <summary> Disconnects the given connection. connection.Disconnect() is also valid. </summary>
+            <param name="connection"> The connection to disconnect. </param>
+        </member>
+        <member name="M:LiruGameHelper.Signals.Signal`2.Invoke(`0,`1)">
+            <summary> Calls all of the bound functions with the given argument. </summary>
+            <param name="input"> The given argument. </param>
+        </member>
+        <member name="P:LiruGameHelper.Signals.SignalConnection.ID">
+            <summary> The ID of this connection, represents the index of a binding. </summary>
+        </member>
+        <member name="P:LiruGameHelper.Signals.SignalConnection.BirthID">
+            <summary> The unique BirthID of this connection. </summary>
+        </member>
+        <member name="F:LiruGameHelper.Signals.SignalConnection.connectedSignal">
+            <summary> The signal that contains the binding of this connection. </summary>
+        </member>
+        <member name="M:LiruGameHelper.Signals.SignalConnection.#ctor(System.Int32,System.Int32,LiruGameHelper.Signals.ISignal)">
+            <summary> Creates a new SignalConnection with the given properties. </summary>
+            <param name="id"> The ID of the binding. </param>
+            <param name="birthID"> The BirthID of the binding. </param>
+            <param name="signal"> The signal that contains the binding. </param>
+        </member>
+        <member name="M:LiruGameHelper.Signals.SignalConnection.Disconnect">
+            <summary> Disconnects the binding from the underlying signal. </summary>
+        </member>
+    </members>
+</doc>

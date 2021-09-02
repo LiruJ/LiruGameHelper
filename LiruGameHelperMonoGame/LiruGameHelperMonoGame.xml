@@ -1,0 +1,85 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>LiruGameHelperMonoGame</name>
+    </assembly>
+    <members>
+        <member name="T:LiruGameHelperMonoGame.Helpers.AspectRatioHelpers">
+            <summary> Helper class for adjusting sizes for aspect ratios. </summary>
+        </member>
+        <member name="M:LiruGameHelperMonoGame.Helpers.AspectRatioHelpers.AdjustWidth(Microsoft.Xna.Framework.Point@,System.Single,System.Single)">
+            <summary> Adjusts the given <paramref name="size"/> so that the height stays the same and the width is adjusted based on the height and the given <paramref name="ratio"/>. </summary>
+            <param name="size"> The size to adjust. </param>
+            <param name="ratio"> The desired ratio. </param>
+            <param name="allowedDeviance"> The allowed deviation of the adjustment. If the adjustment amount is lower than this value, this function returns <c>false</c>. </param>
+            <returns> <c>true</c> if the adjustment was a success; otherwise <c>false</c> if the adjustment is lower than <paramref name="allowedDeviance"/>. </returns>
+        </member>
+        <member name="M:LiruGameHelperMonoGame.Helpers.AspectRatioHelpers.AdjustHeight(Microsoft.Xna.Framework.Point@,System.Single,System.Single)">
+            <summary> Adjusts the given <paramref name="size"/> so that the width stays the same and the height is adjusted based on the width and the given <paramref name="ratio"/>. </summary>
+            <param name="size"> The size to adjust. </param>
+            <param name="ratio"> The desired ratio. </param>
+            <param name="allowedDeviance"> The allowed deviation of the adjustment. If the adjustment amount is lower than this value, this function returns <c>false</c>. </param>
+            <returns> <c>true</c> if the adjustment was a success; otherwise <c>false</c> if the adjustment is lower than <paramref name="allowedDeviance"/>. </returns>
+        </member>
+        <member name="M:LiruGameHelperMonoGame.Helpers.AspectRatioHelpers.FitInBounds(Microsoft.Xna.Framework.Point@,Microsoft.Xna.Framework.Point,System.Single,System.Single)">
+            <summary> Adjust the given <paramref name="size"/> so that it fits into the given <paramref name="parentSize"/>, based on the given <paramref name="ratio"/>. </summary>
+            <param name="size"> The size to adjust. </param>
+            <param name="parentSize"> The size of the parent to fit into. </param>
+            <param name="ratio"> The desired ratio. This is compared against the ratio of the given <paramref name="parentSize"/> to determine how to fit the size into it. </param>
+            <param name="allowedDeviance"> The allowed deviation of the adjustment. If the adjustment amount is lower than this value, this function returns <c>false</c>. </param>
+            <returns> <c>true</c> if the adjustment was a success; otherwise <c>false</c> if the adjustment is lower than <paramref name="allowedDeviance"/>. </returns>
+        </member>
+        <member name="M:LiruGameHelperMonoGame.Helpers.AspectRatioHelpers.FitAroundBounds(Microsoft.Xna.Framework.Point@,Microsoft.Xna.Framework.Point,System.Single,System.Single)">
+            <summary> Adjust the given <paramref name="size"/> so that it fits around the given <paramref name="parentSize"/>, based on the given <paramref name="ratio"/>. </summary>
+            <param name="size"> The size to adjust. </param>
+            <param name="parentSize"> The size of the parent to fit around. </param>
+            <param name="ratio"> The desired ratio. This is compared against the ratio of the given <paramref name="parentSize"/> to determine how to fit the size around it. </param>
+            <param name="allowedDeviance"> The allowed deviation of the adjustment. If the adjustment amount is lower than this value, this function returns <c>false</c>. </param>
+            <returns> <c>true</c> if the adjustment was a success; otherwise <c>false</c> if the adjustment is lower than <paramref name="allowedDeviance"/>. </returns>
+        </member>
+        <member name="M:LiruGameHelperMonoGame.Parsers.Colour.Parse(System.String)">
+            <summary> Parses the given <paramref name="input"/> into a <see cref="T:Microsoft.Xna.Framework.Color"/>. </summary>
+            <param name="input"> The input string. </param>
+            <returns> The parsed <see cref="T:Microsoft.Xna.Framework.Color"/>. </returns>
+            <exception cref="T:System.ArgumentNullException"> <paramref name="input"/> is empty or null. </exception>
+            <exception cref="T:System.FormatException"> <paramref name="input"/> had an invalid format. </exception>
+        </member>
+        <member name="M:LiruGameHelperMonoGame.Parsers.Colour.TryParse(System.String,Microsoft.Xna.Framework.Color@)">
+            <summary> Attempts to parse the given <paramref name="input"/> into the output <paramref name="colour"/>, returning a boolean value representing the outcome of the operation. </summary>
+            <param name="input"> The input string. </param>
+            <param name="colour"> The output <see cref="T:Microsoft.Xna.Framework.Color"/>, or <see cref="P:Microsoft.Xna.Framework.Color.Transparent"/> if the parse operation failed. </param>
+            <returns> <c>true</c> if the parse operation was successful; otherwise, <c>false</c>. </returns>
+        </member>
+        <member name="T:LiruGameHelperMonoGame.Parsers.ParserSettings">
+            <summary> Holds static settings for parsers. </summary>
+        </member>
+        <member name="P:LiruGameHelperMonoGame.Parsers.ParserSettings.FormatProvider">
+            <summary> Sets the format used for all parsers, defaulting to en-GB (decimal point is the <c>.</c> character). This cannot be set to null. </summary>
+        </member>
+        <member name="P:LiruGameHelperMonoGame.Parsers.ParserSettings.Separator">
+            <summary> The character used as a separator when parsing values, defaulting to <c>,</c>. </summary>
+        </member>
+        <member name="T:LiruGameHelperMonoGame.Parsers.ToRectangle">
+            <summary> Allows for comma=separated inputs to be parsed as a <see cref="T:Microsoft.Xna.Framework.Rectangle"/>. </summary>
+        </member>
+        <member name="M:LiruGameHelperMonoGame.Parsers.ToRectangle.TryParse(System.String,Microsoft.Xna.Framework.Rectangle@)">
+            <summary> Attempts to parse the given <paramref name="input"/> into the output <paramref name="rectangle"/>, returning a boolean value representing the outcome of the operation. </summary>
+            <param name="input"> The input string. </param>
+            <param name="rectangle"> The output <see cref="T:Microsoft.Xna.Framework.Rectangle"/>, or <see cref="P:Microsoft.Xna.Framework.Rectangle.Empty"/> if the parse operation failed. </param>
+            <returns> <c>true</c> if the parse operation was successful; otherwise, <c>false</c>. </returns>
+        </member>
+        <member name="M:LiruGameHelperMonoGame.Parsers.ToRectangle.Parse(System.String)">
+            <summary> Parses the given <paramref name="input"/> into a <see cref="T:Microsoft.Xna.Framework.Rectangle"/>. </summary>
+            <param name="input"> The input string. </param>
+            <returns> The parsed <see cref="T:Microsoft.Xna.Framework.Rectangle"/>. </returns>
+            <exception cref="T:System.ArgumentNullException"> <paramref name="input"/> is empty or null. </exception>
+            <exception cref="T:System.FormatException"> <paramref name="input"/> had an invalid format. </exception>
+        </member>
+        <member name="M:LiruGameHelperMonoGame.Textures.Split.FromSize(Microsoft.Xna.Framework.Graphics.Texture2D,Microsoft.Xna.Framework.Point)">
+            <summary> Splits the given <see cref="T:Microsoft.Xna.Framework.Graphics.Texture2D"/> into an array of textures based on the given <see cref="T:Microsoft.Xna.Framework.Point"/> size. </summary>
+            <param name="spriteSheet"> The <see cref="T:Microsoft.Xna.Framework.Graphics.Texture2D"/> to split. </param>
+            <param name="spriteDimensions"> The size of each <see cref="T:Microsoft.Xna.Framework.Graphics.Texture2D"/>. </param>
+            <returns> An array of the split <see cref="T:Microsoft.Xna.Framework.Graphics.Texture2D"/>s. </returns>
+        </member>
+    </members>
+</doc>

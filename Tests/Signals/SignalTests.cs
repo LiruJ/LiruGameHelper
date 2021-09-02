@@ -49,6 +49,22 @@ namespace LiruGameHelper.Signals.Tests
 
         }
 
+        [TestMethod]
+        public void DisconnectAllTest()
+        {
+            // Create a new signal.
+            Signal signal = new Signal();
+
+            int bindingAmount = 15;
+
+            for (int i = 0; i < bindingAmount; i++)
+                signal.Connect(oneTime);
+
+            Assert.AreEqual(bindingAmount, signal.BindingsCount, "Invalid binding amount.");
+            signal.DisconnectAll();
+            Assert.AreEqual(0, signal.BindingsCount);
+        }
+
         [TestMethod()]
         public void InvokeTest()
         {

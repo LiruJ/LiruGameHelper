@@ -6,34 +6,23 @@ namespace LiruGameHelper.Signals
     {
         #region Properties
         /// <summary> The ID of this connection, represents the index of a binding. </summary>
-        internal int ID { get; private set; }
+        internal uint ID { get; }
 
-        /// <summary> The unique BirthID of this connection. </summary>
-        internal int BirthID { get; private set; }
-        #endregion
-
-        #region Internal Fields
         /// <summary> The signal that contains the binding of this connection. </summary>
-        internal ISignal connectedSignal;
+        internal ISignal ConnectedSignal { get; }
         #endregion
 
         #region Constructors
         /// <summary> Creates a new SignalConnection with the given properties. </summary>
         /// <param name="id"> The ID of the binding. </param>
-        /// <param name="birthID"> The BirthID of the binding. </param>
         /// <param name="signal"> The signal that contains the binding. </param>
-        internal SignalConnection(int id, int birthID, ISignal signal)
+        internal SignalConnection(uint id, ISignal signal)
         {
-            //If the ID or BirthID are invalid, throw an exception
-            if (id < 0) throw new ArgumentException("ID for a SignalConnection cannot be negative.");
-            if (birthID < 0) throw new ArgumentException("BirthID for a SignalConnection cannot be negative.");
-
             //Set the properties
             ID = id;
-            BirthID = birthID;
 
             //If the given signal is null, throw an error, otherwise set the Signal property
-            connectedSignal = signal ?? throw new ArgumentNullException("Given Signal cannot be null.");
+            ConnectedSignal = signal ?? throw new ArgumentNullException("Given Signal cannot be null.");
         }
         #endregion
 
@@ -42,10 +31,10 @@ namespace LiruGameHelper.Signals
         public void Disconnect()
         {
             // If the connected signal is null, it is probably an empty struct, so do nothing.
-            if (connectedSignal == null) return;
+            if (ConnectedSignal == null) return;
 
             // Disconnect the signal
-            connectedSignal.Disconnect(this);
+            ConnectedSignal.Disconnect(this);
         }
         #endregion
     }
