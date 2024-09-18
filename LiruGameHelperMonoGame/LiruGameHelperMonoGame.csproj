@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
 	<Version>1.1.1</Version>
 	<Description>A tool designed to help with game creation with MonoGame. Includes functions to parse various MonoGame structures from string.</Description>
 	<Product>Liru Game Helper MonoGame</Product>

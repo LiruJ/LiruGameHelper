@@ -1,6 +1,7 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using LiruGameHelper.Signals;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace LiruGameHelper.Signals.Tests
+namespace Tests.Signals
 {
     [TestClass()]
     public class SignalTests
@@ -15,7 +16,7 @@ namespace LiruGameHelper.Signals.Tests
             SignalConnection connection1 = signal1.Connect(() => { });
             SignalConnection connection2 = signal2.Connect((i) => { });
             SignalConnection connection3 = signal3.Connect((i, j) => { });
-            
+
             Assert.AreEqual(1, signal1.BindingsCount);
             Assert.AreEqual(1, signal2.BindingsCount);
             Assert.AreEqual(1, signal3.BindingsCount);
@@ -30,8 +31,8 @@ namespace LiruGameHelper.Signals.Tests
             Signal<int, int> signal3 = new Signal<int, int>();
 
             SignalConnection connection = signal.ConnectOneTime(oneTime);
-            signal2.ConnectOneTime((int t) => oneTime());
-            signal3.ConnectOneTime((int t, int f) => oneTime());
+            signal2.ConnectOneTime((t) => oneTime());
+            signal3.ConnectOneTime((t, f) => oneTime());
 
             // Invoke the signal twice.
             signal.Invoke();
@@ -71,7 +72,7 @@ namespace LiruGameHelper.Signals.Tests
             signal1.Invoke();
             signal2.Invoke(0);
             signal3.Invoke(0, 0);
-            
+
             Assert.IsFalse(invoked1);
             Assert.IsFalse(invoked2);
             Assert.IsFalse(invoked3);
