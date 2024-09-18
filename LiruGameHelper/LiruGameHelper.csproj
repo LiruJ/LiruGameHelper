@@ -27,7 +27,10 @@
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
-    <None Include="C:\Users\liruo\Documents\Lovebirb\Logo\New\LowResLogo NoOutline.png">
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="LowResLogo NoOutline.png">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
