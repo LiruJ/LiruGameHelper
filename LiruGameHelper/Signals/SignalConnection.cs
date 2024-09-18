@@ -2,7 +2,7 @@
 
 namespace LiruGameHelper.Signals
 {
-    public struct SignalConnection
+    public readonly struct SignalConnection
     {
         #region Properties
         /// <summary> The ID of this connection, represents the index of a binding. </summary>

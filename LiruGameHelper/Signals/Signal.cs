@@ -122,7 +122,7 @@ namespace LiruGameHelper.Signals
             totalBindings++;
 
             // Return a new connection.
-            return new SignalConnection(totalBindings, this);
+            return new SignalConnection(totalBindings - 1, this);
         }
 
         /// <summary> Disconnects the given connection. connection.Disconnect() is also valid. </summary>
@@ -211,7 +211,7 @@ namespace LiruGameHelper.Signals
             totalBindings++;
 
             // Return a new connection.
-            return new SignalConnection(totalBindings, this);
+            return new SignalConnection(totalBindings - 1, this);
         }
 
         /// <summary> Disconnects the given connection. connection.Disconnect() is also valid. </summary>
@@ -301,7 +301,7 @@ namespace LiruGameHelper.Signals
             totalBindings++;
 
             // Return a new connection.
-            return new SignalConnection(totalBindings, this);
+            return new SignalConnection(totalBindings - 1, this);
         }
 
         /// <summary> Disconnects the given connection. connection.Disconnect() is also valid. </summary>
