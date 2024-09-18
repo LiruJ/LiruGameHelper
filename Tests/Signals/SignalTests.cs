@@ -5,10 +5,20 @@ namespace LiruGameHelper.Signals.Tests
     [TestClass()]
     public class SignalTests
     {
-        [TestMethod()]
+        [TestMethod]
         public void ConnectTest()
         {
-            Assert.Inconclusive();
+            Signal signal1 = new Signal();
+            Signal<int> signal2 = new Signal<int>();
+            Signal<int, int> signal3 = new Signal<int, int>();
+
+            SignalConnection connection1 = signal1.Connect(() => { });
+            SignalConnection connection2 = signal2.Connect((i) => { });
+            SignalConnection connection3 = signal3.Connect((i, j) => { });
+            
+            Assert.AreEqual(1, signal1.BindingsCount);
+            Assert.AreEqual(1, signal2.BindingsCount);
+            Assert.AreEqual(1, signal3.BindingsCount);
         }
 
         [TestMethod()]
@@ -45,8 +55,29 @@ namespace LiruGameHelper.Signals.Tests
         [TestMethod()]
         public void DisconnectTest()
         {
-            Assert.Inconclusive();
+            Signal signal1 = new Signal();
+            Signal<int> signal2 = new Signal<int>();
+            Signal<int, int> signal3 = new Signal<int, int>();
 
+            bool invoked1 = false, invoked2 = false, invoked3 = false;
+            SignalConnection connection1 = signal1.Connect(() => invoked1 = true);
+            SignalConnection connection2 = signal2.Connect((i) => invoked2 = true);
+            SignalConnection connection3 = signal3.Connect((i, j) => invoked3 = true);
+
+            connection1.Disconnect();
+            connection2.Disconnect();
+            connection3.Disconnect();
+
+            signal1.Invoke();
+            signal2.Invoke(0);
+            signal3.Invoke(0, 0);
+            
+            Assert.IsFalse(invoked1);
+            Assert.IsFalse(invoked2);
+            Assert.IsFalse(invoked3);
+            Assert.AreEqual(0, signal1.BindingsCount);
+            Assert.AreEqual(0, signal2.BindingsCount);
+            Assert.AreEqual(0, signal3.BindingsCount);
         }
 
         [TestMethod]
@@ -68,8 +99,23 @@ namespace LiruGameHelper.Signals.Tests
         [TestMethod()]
         public void InvokeTest()
         {
-            Assert.Inconclusive();
+            Signal signal1 = new Signal();
+            Signal<int> signal2 = new Signal<int>();
+            Signal<int, int> signal3 = new Signal<int, int>();
 
+            bool invoked1 = false, invoked2 = false, invoked3 = false;
+
+            signal1.Connect(() => invoked1 = true);
+            signal2.Connect((i) => invoked2 = true);
+            signal3.Connect((i, j) => invoked3 = true);
+
+            signal1.Invoke();
+            signal2.Invoke(0);
+            signal3.Invoke(0, 0);
+
+            Assert.IsTrue(invoked1);
+            Assert.IsTrue(invoked2);
+            Assert.IsTrue(invoked3);
         }
 
         [TestMethod]
