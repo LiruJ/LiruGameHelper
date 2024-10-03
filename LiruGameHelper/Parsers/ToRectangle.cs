@@ -1,8 +1,8 @@
-﻿using Microsoft.Xna.Framework;
-using System;
+﻿using System;
+using System.Drawing;
 using System.Globalization;
 
-namespace LiruGameHelperMonoGame.Parsers
+namespace LiruGameHelper.Parsers
 {
     /// <summary> Allows for comma=separated inputs to be parsed as a <see cref="Rectangle"/>. </summary>
     public static class ToRectangle
@@ -33,19 +33,26 @@ namespace LiruGameHelperMonoGame.Parsers
         private static bool tryParse(string input, out Rectangle rectangle, bool throwException)
         {
             // If the string is null or empty, throw an exception or return false.
-            if (string.IsNullOrWhiteSpace(input)) { rectangle = Rectangle.Empty; return throwException ? throw new ArgumentException("Given string cannot be empty.", nameof(input)) : false; }
+            rectangle = default;
+            if (string.IsNullOrWhiteSpace(input))
+                return throwException ? throw new ArgumentException("Given string cannot be empty.", nameof(input)) : false;
 
             // Split the input string by commas.
             string[] splitInput = input.Split(ParserSettings.Separator);
 
             // If there are not enough inputs, throw an exception or return false.
-            if (splitInput.Length < 4) { rectangle = Rectangle.Empty; return throwException ? throw new FormatException("Not enough inputs were given, rectangle must have X, Y, width, and height.") : false; }
+            if (splitInput.Length < 4) 
+                return throwException ? throw new FormatException("Not enough inputs were given, rectangle must have X, Y, width, and height.") : false;
 
             // If any of the inputs fail to parse, throw an error or return false.
-            if (!int.TryParse(splitInput[0], NumberStyles.Integer, ParserSettings.FormatProvider, out int x)) { rectangle = Rectangle.Empty; return throwException ? throw new FormatException("X was invalid, must be a valid int.") : false; } 
-            if (!int.TryParse(splitInput[1], NumberStyles.Integer, ParserSettings.FormatProvider, out int y)) { rectangle = Rectangle.Empty; return throwException ? throw new FormatException("Y was invalid, must be a valid int.") : false; }
-            if (!int.TryParse(splitInput[2], NumberStyles.Integer, ParserSettings.FormatProvider, out int w)) { rectangle = Rectangle.Empty; return throwException ? throw new FormatException("Width was invalid, must be a valid int.") : false; }
-            if (!int.TryParse(splitInput[3], NumberStyles.Integer, ParserSettings.FormatProvider, out int h)) { rectangle = Rectangle.Empty; return throwException ? throw new FormatException("Height was invalid, must be a valid int.") : false; }
+            if (!int.TryParse(splitInput[0], NumberStyles.Integer, ParserSettings.FormatProvider, out int x))
+                return throwException ? throw new FormatException("X was invalid, must be a valid int.") : false;
+            if (!int.TryParse(splitInput[1], NumberStyles.Integer, ParserSettings.FormatProvider, out int y)) 
+                return throwException ? throw new FormatException("Y was invalid, must be a valid int.") : false;
+            if (!int.TryParse(splitInput[2], NumberStyles.Integer, ParserSettings.FormatProvider, out int w)) 
+                return throwException ? throw new FormatException("Width was invalid, must be a valid int.") : false;
+            if (!int.TryParse(splitInput[3], NumberStyles.Integer, ParserSettings.FormatProvider, out int h)) 
+                return throwException ? throw new FormatException("Height was invalid, must be a valid int.") : false;
 
             // Create a rectangle out of the parsed sides and return true.
             rectangle = new Rectangle(x, y, w, h);

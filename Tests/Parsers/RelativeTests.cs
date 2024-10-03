@@ -1,12 +1,7 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using LiruGameHelperMonoGame.Parsers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using LiruGameHelper.Parsers;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace LiruGameHelperMonoGame.Parsers.Tests
+namespace Tests.Parsers
 {
     [TestClass()]
     public class RelativeTests

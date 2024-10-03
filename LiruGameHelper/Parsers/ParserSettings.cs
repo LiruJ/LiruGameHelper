@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Globalization;
 
-namespace LiruGameHelperMonoGame.Parsers
+namespace LiruGameHelper.Parsers
 {
     /// <summary> Holds static settings for parsers. </summary>
     public static class ParserSettings

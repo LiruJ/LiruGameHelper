@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
-	<Version>1.1.2</Version>
+	<Version>1.2.0</Version>
 	<Description>A tool designed to help with game creation with MonoGame. Includes functions to parse various MonoGame structures from string.</Description>
 	<Product>Liru Game Helper MonoGame</Product>
 	<Authors>Liru</Authors>
@@ -20,11 +20,11 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>G:\Projects\Game Dev\LiruGameHelper\Code\LiruGameHelperMonoGame\LiruGameHelperMonoGame.xml</DocumentationFile>
+    <DocumentationFile>G:\Projects\Game Dev\LiruGameHelper\Code\LiruGameHelper.MonoGame\LiruGameHelper.MonoGame.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.0.1641" />
+    <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.2.1105" />
   </ItemGroup>
 
   <ItemGroup>
@@ -32,6 +32,10 @@
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\LiruGameHelper\LiruGameHelper.csproj" />
   </ItemGroup>
 
   <ItemGroup>

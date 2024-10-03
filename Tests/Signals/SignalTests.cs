@@ -1,4 +1,5 @@
 ﻿using LiruGameHelper.Signals;
+using LiruGameHelper.Exceptions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Tests.Signals
@@ -9,9 +10,9 @@ namespace Tests.Signals
         [TestMethod]
         public void ConnectTest()
         {
-            Signal signal1 = new Signal();
-            Signal<int> signal2 = new Signal<int>();
-            Signal<int, int> signal3 = new Signal<int, int>();
+            Signal signal1 = new();
+            Signal<int> signal2 = new();
+            Signal<int, int> signal3 = new();
 
             SignalConnection connection1 = signal1.Connect(() => { });
             SignalConnection connection2 = signal2.Connect((i) => { });
@@ -26,9 +27,9 @@ namespace Tests.Signals
         public void ConnectOneTimeTest()
         {
             // Create a new signal and connect it once.
-            Signal signal = new Signal();
-            Signal<int> signal2 = new Signal<int>();
-            Signal<int, int> signal3 = new Signal<int, int>();
+            Signal signal = new();
+            Signal<int> signal2 = new();
+            Signal<int, int> signal3 = new();
 
             SignalConnection connection = signal.ConnectOneTime(oneTime);
             signal2.ConnectOneTime((t) => oneTime());
@@ -40,7 +41,7 @@ namespace Tests.Signals
 
             // Try to disconnect the connection.
 #if DEBUG
-            Assert.ThrowsException<Exceptions.InvalidDisconnectionException>(() => connection.Disconnect());
+            Assert.ThrowsException<InvalidDisconnectionException>(() => connection.Disconnect());
 #endif
 
             signal2.Invoke(0);
@@ -56,9 +57,9 @@ namespace Tests.Signals
         [TestMethod()]
         public void DisconnectTest()
         {
-            Signal signal1 = new Signal();
-            Signal<int> signal2 = new Signal<int>();
-            Signal<int, int> signal3 = new Signal<int, int>();
+            Signal signal1 = new();
+            Signal<int> signal2 = new();
+            Signal<int, int> signal3 = new();
 
             bool invoked1 = false, invoked2 = false, invoked3 = false;
             SignalConnection connection1 = signal1.Connect(() => invoked1 = true);
@@ -85,7 +86,7 @@ namespace Tests.Signals
         public void DisconnectAllTest()
         {
             // Create a new signal.
-            Signal signal = new Signal();
+            Signal signal = new();
 
             int bindingAmount = 15;
 
@@ -100,9 +101,9 @@ namespace Tests.Signals
         [TestMethod()]
         public void InvokeTest()
         {
-            Signal signal1 = new Signal();
-            Signal<int> signal2 = new Signal<int>();
-            Signal<int, int> signal3 = new Signal<int, int>();
+            Signal signal1 = new();
+            Signal<int> signal2 = new();
+            Signal<int, int> signal3 = new();
 
             bool invoked1 = false, invoked2 = false, invoked3 = false;
 
@@ -122,7 +123,7 @@ namespace Tests.Signals
         [TestMethod]
         public void RecursiveTest()
         {
-            Signal signal = new Signal();
+            Signal signal = new();
 
             recursive(signal, 3);
 

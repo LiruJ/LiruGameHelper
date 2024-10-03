@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace LiruGameHelperMonoGame.Textures
+namespace LiruGameHelper.MonoGame.Textures
 {
     public static class Split
     {
@@ -23,14 +23,14 @@ namespace LiruGameHelperMonoGame.Textures
                 for (int x = 0; x < textureWidth; x++)
                 {
                     //The rectangle of the target tile
-                    Rectangle sourceRectangle = new Rectangle(spriteDimensions.X * x, spriteDimensions.Y * y, spriteDimensions.X, spriteDimensions.Y);
+                    Rectangle sourceRectangle = new(spriteDimensions.X * x, spriteDimensions.Y * y, spriteDimensions.X, spriteDimensions.Y);
 
                     //Get the data from the target area of the spritesheet
                     Color[] data = new Color[sourceRectangle.Width * sourceRectangle.Height];
                     spriteSheet.GetData(0, sourceRectangle, data, 0, data.Length);
 
                     //Create a new texture based on the data
-                    Texture2D finalTile = new Texture2D(spriteSheet.GraphicsDevice, spriteDimensions.X, spriteDimensions.Y);
+                    Texture2D finalTile = new(spriteSheet.GraphicsDevice, spriteDimensions.X, spriteDimensions.Y);
                     finalTile.SetData(data);
 
                     //Add the new texture to the array

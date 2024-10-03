@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Globalization;
 
-namespace LiruGameHelperMonoGame.Parsers
+namespace LiruGameHelper.Parsers
 {
     public static class Relative
     {

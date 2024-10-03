@@ -1,4 +1,4 @@
-﻿using LiruGameHelperMonoGame.Helpers;
+﻿using LiruGameHelper.MonoGame.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.Xna.Framework;
 
@@ -13,7 +13,7 @@ namespace Tests.Helpers
         public void DeviationTest()
         {
             // Ensure that it cannot be adjusted with a ratio of 0.5, as no changes can be made.
-            Point size = new Point(1000, 2000);
+            Point size = new(1000, 2000);
             Assert.IsFalse(AspectRatioHelpers.AdjustHeight(ref size, 0.5f, 3f), "Height was adjusted when it did not need to be.");
             size = new Point(1000, 2000);
             Assert.IsFalse(AspectRatioHelpers.AdjustWidth(ref size, 0.5f, 3f), "Width was adjusted when it did not need to be.");
@@ -35,7 +35,7 @@ namespace Tests.Helpers
         public void WidthTest()
         {
             // Create a basic 1000x1000 square.
-            Point size = new Point(1000, 1000);
+            Point size = new(1000, 1000);
 
             // Adjust the width.
             Assert.IsTrue(AspectRatioHelpers.AdjustWidth(ref size, ratio, 2f), "Width was not adjusted.");
@@ -48,7 +48,7 @@ namespace Tests.Helpers
         public void HeightTest()
         {
             // Create a basic 1000x1000 square.
-            Point size = new Point(1000, 1000);
+            Point size = new(1000, 1000);
 
             // Adjust the height.
             Assert.IsTrue(AspectRatioHelpers.AdjustHeight(ref size, ratio, 2f), "Height was not adjusted.");
@@ -61,10 +61,10 @@ namespace Tests.Helpers
         public void FitWidthInBoundsTest()
         {
             // Create a basic 1000x1000 square.
-            Point size = new Point(1000, 1000);
+            Point size = new(1000, 1000);
 
             // Create a parent that is not as wide as the main size.
-            Point thinParent = new Point(500, 1000);
+            Point thinParent = new(500, 1000);
 
             // Fit the size into the parent size.
             Assert.IsTrue(AspectRatioHelpers.FitInBounds(ref size, thinParent, ratio, 2f), "Could not fit into parent bounds.");
@@ -78,10 +78,10 @@ namespace Tests.Helpers
         public void FitHeightInBoundsTest()
         {
             // Create a basic 1000x1000 square.
-            Point size = new Point(1000, 1000);
+            Point size = new(1000, 1000);
 
             // Create a parent that is not as tall as the main size.
-            Point shortParent = new Point(1000, 500);
+            Point shortParent = new(1000, 500);
 
             // Fit the size into the parent size.
             Assert.IsTrue(AspectRatioHelpers.FitInBounds(ref size, shortParent, ratio, 2f), "Could not fit into parent bounds.");
@@ -95,10 +95,10 @@ namespace Tests.Helpers
         public void FitWidthAroundBoundsTest()
         {
             // Create a basic 1000x1000 square.
-            Point size = new Point(1000, 1000);
+            Point size = new(1000, 1000);
 
             // Create a parent that is wider than the main size.
-            Point wideParent = new Point(1500, 1000);
+            Point wideParent = new(1500, 1000);
 
             // Fit the size into the parent size.
             Assert.IsTrue(AspectRatioHelpers.FitInBounds(ref size, wideParent, ratio, 2f), "Could not fit into parent bounds.");
@@ -112,10 +112,10 @@ namespace Tests.Helpers
         public void FitHeightAroundBoundsTest()
         {
             // Create a basic 1000x1000 square.
-            Point size = new Point(1000, 1000);
+            Point size = new(1000, 1000);
 
             // Create a parent that is taller than the main size.
-            Point tallParent = new Point(1000, 1500);
+            Point tallParent = new(1000, 1500);
 
             // Fit the size around the parent size.
             Assert.IsTrue(AspectRatioHelpers.FitAroundBounds(ref size, tallParent, ratio, 2f), "Could not fit around parent bounds.");

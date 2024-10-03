@@ -7,9 +7,9 @@ namespace LiruGameHelper.Reflection
     public class ConstructorCache<T>
     {
         #region Fields
-        private readonly Dictionary<Type, ConstructorInfo> constructorsByType = new Dictionary<Type, ConstructorInfo>();
+        private readonly Dictionary<Type, ConstructorInfo> constructorsByType = new();
 
-        private readonly Dictionary<string, Type> typesByName = new Dictionary<string, Type>();
+        private readonly Dictionary<string, Type> typesByName = new();
         #endregion
 
         #region Constructors

@@ -84,10 +84,10 @@ namespace LiruGameHelper.Signals
     {
         #region Binding Fields
         /// <summary> The collection of functions that are bound to this signal. </summary>
-        private readonly Dictionary<uint, Binding> bindings = new Dictionary<uint, Binding>();
+        private readonly Dictionary<uint, Binding> bindings = new();
 
         /// <summary> A collection of bindings that is populated from the main collection every time <see cref="Invoke"/> is called. </summary>
-        private readonly List<Binding> bindingsCopy = new List<Binding>();
+        private readonly List<Binding> bindingsCopy = new();
 
         /// <summary> The total amount of functions that have been bound to this signal, including the ones that were removed. </summary>
         private uint totalBindings = 0;
@@ -173,10 +173,10 @@ namespace LiruGameHelper.Signals
     {
         #region Binding Fields
         /// <summary> The collection of functions that are bound to this signal. </summary>
-        private readonly Dictionary<uint, Binding<T1>> bindings = new Dictionary<uint, Binding<T1>>();
+        private readonly Dictionary<uint, Binding<T1>> bindings = new();
 
         /// <summary> A collection of bindings that is populated from the main collection every time <see cref="Invoke"/> is called. </summary>
-        private readonly List<Binding<T1>> bindingsCopy = new List<Binding<T1>>();
+        private readonly List<Binding<T1>> bindingsCopy = new();
 
         /// <summary> The total amount of functions that have been bound to this signal, including the ones that were removed. </summary>
         private uint totalBindings = 0;
@@ -263,10 +263,10 @@ namespace LiruGameHelper.Signals
     {
         #region Binding Fields
         /// <summary> The collection of functions that are bound to this signal. </summary>
-        private readonly Dictionary<uint, Binding<T1, T2>> bindings = new Dictionary<uint, Binding<T1, T2>>();
+        private readonly Dictionary<uint, Binding<T1, T2>> bindings = new();
 
         /// <summary> A collection of bindings that is populated from the main collection every time <see cref="Invoke"/> is called. </summary>
-        private readonly List<Binding<T1, T2>> bindingsCopy = new List<Binding<T1, T2>>();
+        private readonly List<Binding<T1, T2>> bindingsCopy = new();
 
         /// <summary> The total amount of functions that have been bound to this signal, including the ones that were removed. </summary>
         private uint totalBindings = 0;

@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
 
-namespace LiruGameHelperMonoGame.Helpers
+namespace LiruGameHelper.MonoGame.Helpers
 {
     /// <summary> Helper class for adjusting sizes for aspect ratios. </summary>
     public static class AspectRatioHelpers

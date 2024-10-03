@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\LiruGameHelperMonoGame\LiruGameHelperMonoGame.csproj" />
+    <ProjectReference Include="..\LiruGameHelper.MonoGame\LiruGameHelper.MonoGame.csproj" />
     <ProjectReference Include="..\LiruGameHelper\LiruGameHelper.csproj" />
   </ItemGroup>
 
