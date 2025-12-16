@@ -7,6 +7,39 @@
         <member name="T:LiruGameHelper.Exceptions.InvalidGameStateException">
             <summary> Should be used for when the game tries to execute a command in the wrong state. For example, the game trying to open the inventory when on the main menu. </summary>
         </member>
+        <member name="T:LiruGameHelper.Helpers.AspectRatioHelpers">
+            <summary> Helper class for adjusting sizes for aspect ratios. </summary>
+        </member>
+        <member name="M:LiruGameHelper.Helpers.AspectRatioHelpers.AdjustWidth(System.Drawing.Point@,System.Single,System.Single)">
+            <summary> Adjusts the given <paramref name="size"/> so that the height stays the same and the width is adjusted based on the height and the given <paramref name="ratio"/>. </summary>
+            <param name="size"> The size to adjust. </param>
+            <param name="ratio"> The desired ratio. </param>
+            <param name="allowedDeviance"> The allowed deviation of the adjustment. If the adjustment amount is lower than this value, this function returns <c>false</c>. </param>
+            <returns> <c>true</c> if the adjustment was a success; otherwise <c>false</c> if the adjustment is lower than <paramref name="allowedDeviance"/>. </returns>
+        </member>
+        <member name="M:LiruGameHelper.Helpers.AspectRatioHelpers.AdjustHeight(System.Drawing.Point@,System.Single,System.Single)">
+            <summary> Adjusts the given <paramref name="size"/> so that the width stays the same and the height is adjusted based on the width and the given <paramref name="ratio"/>. </summary>
+            <param name="size"> The size to adjust. </param>
+            <param name="ratio"> The desired ratio. </param>
+            <param name="allowedDeviance"> The allowed deviation of the adjustment. If the adjustment amount is lower than this value, this function returns <c>false</c>. </param>
+            <returns> <c>true</c> if the adjustment was a success; otherwise <c>false</c> if the adjustment is lower than <paramref name="allowedDeviance"/>. </returns>
+        </member>
+        <member name="M:LiruGameHelper.Helpers.AspectRatioHelpers.FitInBounds(System.Drawing.Point@,System.Drawing.Point,System.Single,System.Single)">
+            <summary> Adjust the given <paramref name="size"/> so that it fits into the given <paramref name="parentSize"/>, based on the given <paramref name="ratio"/>. </summary>
+            <param name="size"> The size to adjust. </param>
+            <param name="parentSize"> The size of the parent to fit into. </param>
+            <param name="ratio"> The desired ratio. This is compared against the ratio of the given <paramref name="parentSize"/> to determine how to fit the size into it. </param>
+            <param name="allowedDeviance"> The allowed deviation of the adjustment. If the adjustment amount is lower than this value, this function returns <c>false</c>. </param>
+            <returns> <c>true</c> if the adjustment was a success; otherwise <c>false</c> if the adjustment is lower than <paramref name="allowedDeviance"/>. </returns>
+        </member>
+        <member name="M:LiruGameHelper.Helpers.AspectRatioHelpers.FitAroundBounds(System.Drawing.Point@,System.Drawing.Point,System.Single,System.Single)">
+            <summary> Adjust the given <paramref name="size"/> so that it fits around the given <paramref name="parentSize"/>, based on the given <paramref name="ratio"/>. </summary>
+            <param name="size"> The size to adjust. </param>
+            <param name="parentSize"> The size of the parent to fit around. </param>
+            <param name="ratio"> The desired ratio. This is compared against the ratio of the given <paramref name="parentSize"/> to determine how to fit the size around it. </param>
+            <param name="allowedDeviance"> The allowed deviation of the adjustment. If the adjustment amount is lower than this value, this function returns <c>false</c>. </param>
+            <returns> <c>true</c> if the adjustment was a success; otherwise <c>false</c> if the adjustment is lower than <paramref name="allowedDeviance"/>. </returns>
+        </member>
         <member name="M:LiruGameHelper.Parsers.Colour.Parse(System.String)">
             <summary> Parses the given <paramref name="input"/> into a <see cref="T:System.Drawing.Color"/>. </summary>
             <param name="input"> The input string. </param>
@@ -209,8 +242,8 @@
         </member>
         <member name="M:LiruGameHelper.Signals.Signal`2.Invoke(`0,`1)">
             <summary> Calls all of the bound functions with the given arguments. </summary>
-            <param name="input"> The given argument. </param>
-            <param name="input"> The second given argument. </param>
+            <param name="firstInput"> The given argument. </param>
+            <param name="secondInput"> The second given argument. </param>
         </member>
         <member name="P:LiruGameHelper.Signals.SignalConnection.ID">
             <summary> The ID of this connection, represents the index of a binding. </summary>

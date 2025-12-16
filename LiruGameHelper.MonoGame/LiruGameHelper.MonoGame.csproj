@@ -1,7 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+  <TargetFramework>net8.0</TargetFramework>
+  <Nullable>enable</Nullable>
 	<Version>1.2.0</Version>
 	<Description>A tool designed to help with game creation with MonoGame. Includes functions to parse various MonoGame structures from string.</Description>
 	<Product>Liru Game Helper MonoGame</Product>
@@ -20,11 +21,11 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>G:\Projects\Game Dev\LiruGameHelper\Code\LiruGameHelper.MonoGame\LiruGameHelper.MonoGame.xml</DocumentationFile>
+    <DocumentationFile>LiruGameHelper.MonoGame.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.2.1105" />
+    <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.4.1" />
   </ItemGroup>
 
   <ItemGroup>

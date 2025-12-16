@@ -3,148 +3,147 @@ using System.Drawing;
 using System.Globalization;
 using System.Reflection;
 
-namespace LiruGameHelper.Parsers
+namespace LiruGameHelper.Parsers;
+
+public static class Colour
 {
-    public static class Colour
+    #region Constants
+    private const char hexChar = '#';
+
+    private const char rgbChar = '*';
+    #endregion
+
+    #region Public Parse Functions
+    /// <summary> Parses the given <paramref name="input"/> into a <see cref="Color"/>. </summary>
+    /// <param name="input"> The input string. </param>
+    /// <returns> The parsed <see cref="Color"/>. </returns>
+    /// <exception cref="ArgumentNullException"> <paramref name="input"/> is empty or null. </exception>
+    /// <exception cref="FormatException"> <paramref name="input"/> had an invalid format. </exception>
+    public static Color Parse(string input)
     {
-        #region Constants
-        private const char hexChar = '#';
+        // Try to parse the colour, with exceptions being thrown.
+        tryParse(input, out Color colour, true);
+        
+        // Return the colour.
+        return colour;
+    }
 
-        private const char rgbChar = '*';
-        #endregion
+    /// <summary> Attempts to parse the given <paramref name="input"/> into the output <paramref name="colour"/>, returning a boolean value representing the outcome of the operation. </summary>
+    /// <param name="input"> The input string. </param>
+    /// <param name="colour"> The output <see cref="Color"/>, or <see cref="Color.Transparent"/> if the parse operation failed. </param>
+    /// <returns> <c>true</c> if the parse operation was successful; otherwise, <c>false</c>. </returns>
+    public static bool TryParse(string input, out Color colour) => tryParse(input, out colour, false);
+    #endregion
 
-        #region Public Parse Functions
-        /// <summary> Parses the given <paramref name="input"/> into a <see cref="Color"/>. </summary>
-        /// <param name="input"> The input string. </param>
-        /// <returns> The parsed <see cref="Color"/>. </returns>
-        /// <exception cref="ArgumentNullException"> <paramref name="input"/> is empty or null. </exception>
-        /// <exception cref="FormatException"> <paramref name="input"/> had an invalid format. </exception>
-        public static Color Parse(string input)
+    #region Private Parse Functions
+    private static bool tryParse(string input, out Color colour, bool throwException = false)
+    {
+        // If the string is empty or null, throw an exception or return false.
+        colour = default;
+        if (string.IsNullOrWhiteSpace(input)) 
+            return throwException ? throw new ArgumentNullException(nameof(input), "Given string cannot be null, empty, or whitespace.") : false;
+
+        // Trim any whitespace.
+        input = input.Trim();
+
+        switch (input[0])
         {
-            // Try to parse the colour, with exceptions being thrown.
-            tryParse(input, out Color colour, true);
-            
-            // Return the colour.
-            return colour;
+            case hexChar:
+                return tryParseHex(input, out colour, throwException);
+            case rgbChar:
+                return tryParseRGBA(input, out colour, throwException);
+            default:
+                // Get the colour propert from the Monogame Color class.
+                PropertyInfo? colourPropertyInfo = typeof(Color).GetProperty(input, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Static);
+
+                // If the property could not be found, fail, otherwise; return true along with the colour.
+                if (colourPropertyInfo == null) 
+                    return throwException ? throw new FormatException("Given string could not be parsed and does not have an associated preset colour.") : false;
+                else if (colourPropertyInfo.GetValue(null) is Color presetColour) 
+                {
+                    colour = presetColour; return true; 
+                }
+                else 
+                    return throwException ? throw new FormatException("Given string could not be parsed and does not have an associated preset colour.") : false;
         }
+    }
 
-        /// <summary> Attempts to parse the given <paramref name="input"/> into the output <paramref name="colour"/>, returning a boolean value representing the outcome of the operation. </summary>
-        /// <param name="input"> The input string. </param>
-        /// <param name="colour"> The output <see cref="Color"/>, or <see cref="Color.Transparent"/> if the parse operation failed. </param>
-        /// <returns> <c>true</c> if the parse operation was successful; otherwise, <c>false</c>. </returns>
-        public static bool TryParse(string input, out Color colour) => tryParse(input, out colour, false);
-        #endregion
+    private static bool tryParseHex(string input, out Color colour, bool throwException = false)
+    {
+        // Remove the # from the input.
+        input = input.TrimStart(hexChar);
 
-        #region Private Parse Functions
-        private static bool tryParse(string input, out Color colour, bool throwException = false)
+        // Start with the default colour.
+        colour = default;
+
+        // Is true if the length of the input signifies that it has an alpha value.
+        bool hasAlpha = input.Length % 4 == 0;
+
+        // Find the length of each value within the string.
+        int valueLength;
+        if (input.Length != 0 && hasAlpha) 
+            valueLength = input.Length / 4;
+        else if (input.Length != 0 && input.Length % 3 == 0) 
+            valueLength = input.Length / 3;
+        else 
+            return throwException ? throw new FormatException("Hex value must be #rgb, #rrggbb, #rgba, or #rrggbbaa format.") : false;
+        
+        // Calculate the maximum value that could be made using the number of digits within the value length.
+        float maxValue = (int)Math.Pow(16, valueLength) - 1;
+
+        // Parse the RGB values.
+        if (!int.TryParse(input.AsSpan(0, valueLength), NumberStyles.HexNumber, ParserSettings.FormatProvider, out int red))
+            return throwException ? throw new FormatException("Red was invalid, must be a valid hex byte.") : false;
+        if (!int.TryParse(input.AsSpan(valueLength, valueLength), NumberStyles.HexNumber, ParserSettings.FormatProvider, out int green))
+            return throwException ? throw new FormatException("Green was invalid, must be a valid hex byte.") : false;
+        if (!int.TryParse(input.AsSpan(valueLength * 2, valueLength), NumberStyles.HexNumber, ParserSettings.FormatProvider, out int blue))
+            return throwException ? throw new FormatException("Blue was invalid, must be a valid hex byte.") : false;
+
+        // Parse the alpha if one was given, otherwise default to the max value.
+        int alpha;
+        if (!hasAlpha)
+            alpha = (int)maxValue;
+        else if (!int.TryParse(input.AsSpan(valueLength * 3, valueLength), NumberStyles.HexNumber, ParserSettings.FormatProvider, out alpha))
+            return throwException ? throw new FormatException("Alpha was invalid, must be a valid hex byte.") : false;
+
+        // Create the colour and return true.
+        colour = Color.FromArgb(
+            (byte)MathF.Floor((alpha / maxValue) * byte.MaxValue),
+            (byte)MathF.Floor((red / maxValue) * byte.MaxValue),
+            (byte)MathF.Floor((green / maxValue) * byte.MaxValue),
+            (byte)MathF.Floor((blue / maxValue) * byte.MaxValue));
+        return true;
+    }
+
+    private static bool tryParseRGBA(string input, out Color colour, bool throwException = false)
+    {
+        // Remove the * from the input.
+        colour = default;
+        input = input.TrimStart(rgbChar);
+
+        // Split the input string by commas.
+        string[] rgbaInputs = input.Split(ParserSettings.Separator);
+        string alphaInput = rgbaInputs.Length >= 4 ? rgbaInputs[3] : byte.MaxValue.ToString();
+
+        // If the input string has three or more inputs, parse it.
+        if (rgbaInputs.Length >= 3)
         {
-            // If the string is empty or null, throw an exception or return false.
-            colour = default;
-            if (string.IsNullOrWhiteSpace(input)) 
-                return throwException ? throw new ArgumentNullException(nameof(input), "Given string cannot be null, empty, or whitespace.") : false;
-
-            // Trim any whitespace.
-            input = input.Trim();
-
-            switch (input[0])
-            {
-                case hexChar:
-                    return tryParseHex(input, out colour, throwException);
-                case rgbChar:
-                    return tryParseRGBA(input, out colour, throwException);
-                default:
-                    // Get the colour propert from the Monogame Color class.
-                    PropertyInfo colourPropertyInfo = typeof(Color).GetProperty(input, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Static);
-
-                    // If the property could not be found, fail, otherwise; return true along with the colour.
-                    if (colourPropertyInfo == null) 
-                        return throwException ? throw new FormatException("Given string could not be parsed and does not have an associated preset colour.") : false;
-                    else if (colourPropertyInfo.GetValue(null) is Color presetColour) 
-                    {
-                        colour = presetColour; return true; 
-                    }
-                    else 
-                        return throwException ? throw new FormatException("Given string could not be parsed and does not have an associated preset colour.") : false;
-            }
-        }
-
-        private static bool tryParseHex(string input, out Color colour, bool throwException = false)
-        {
-            // Remove the # from the input.
-            input = input.TrimStart(hexChar);
-
-            // Start with the default colour.
-            colour = default;
-
-            // Is true if the length of the input signifies that it has an alpha value.
-            bool hasAlpha = input.Length % 4 == 0;
-
-            // Find the length of each value within the string.
-            int valueLength;
-            if (input.Length != 0 && hasAlpha) 
-                valueLength = input.Length / 4;
-            else if (input.Length != 0 && input.Length % 3 == 0) 
-                valueLength = input.Length / 3;
-            else 
-                return throwException ? throw new FormatException("Hex value must be #rgb, #rrggbb, #rgba, or #rrggbbaa format.") : false;
-            
-            // Calculate the maximum value that could be made using the number of digits within the value length.
-            float maxValue = (int)Math.Pow(16, valueLength) - 1;
-
-            // Parse the RGB values.
-            if (!int.TryParse(input.AsSpan(0, valueLength), NumberStyles.HexNumber, ParserSettings.FormatProvider, out int red))
-                return throwException ? throw new FormatException("Red was invalid, must be a valid hex byte.") : false;
-            if (!int.TryParse(input.AsSpan(valueLength, valueLength), NumberStyles.HexNumber, ParserSettings.FormatProvider, out int green))
-                return throwException ? throw new FormatException("Green was invalid, must be a valid hex byte.") : false;
-            if (!int.TryParse(input.AsSpan(valueLength * 2, valueLength), NumberStyles.HexNumber, ParserSettings.FormatProvider, out int blue))
-                return throwException ? throw new FormatException("Blue was invalid, must be a valid hex byte.") : false;
-
-            // Parse the alpha if one was given, otherwise default to the max value.
-            int alpha;
-            if (!hasAlpha)
-                alpha = (int)maxValue;
-            else if (!int.TryParse(input.AsSpan(valueLength * 3, valueLength), NumberStyles.HexNumber, ParserSettings.FormatProvider, out alpha))
-                return throwException ? throw new FormatException("Alpha was invalid, must be a valid hex byte.") : false;
-
-            // Create the colour and return true.
-            colour = Color.FromArgb(
-                (byte)MathF.Floor((alpha / maxValue) * byte.MaxValue),
-                (byte)MathF.Floor((red / maxValue) * byte.MaxValue),
-                (byte)MathF.Floor((green / maxValue) * byte.MaxValue),
-                (byte)MathF.Floor((blue / maxValue) * byte.MaxValue));
+            // Parse the red, green, blue, and alpha into a colour, then return true.
+            if (!byte.TryParse(rgbaInputs[0], NumberStyles.Integer, ParserSettings.FormatProvider, out byte red))
+                return throwException ? throw new FormatException("Red was invalid, must be a valid byte.") : false;
+            if (!byte.TryParse(rgbaInputs[1], NumberStyles.Integer, ParserSettings.FormatProvider, out byte green))
+                return throwException ? throw new FormatException("Green was invalid, must be a valid byte.") : false;
+            if (!byte.TryParse(rgbaInputs[2], NumberStyles.Integer, ParserSettings.FormatProvider, out byte blue))
+                return throwException ? throw new FormatException("Blue was invalid, must be a valid byte.") : false;
+            if (!byte.TryParse(alphaInput, NumberStyles.Integer, ParserSettings.FormatProvider, out byte alpha))
+                return throwException ? throw new FormatException("Alpha was invalid, must be a valid byte.") : false;
+            colour = Color.FromArgb(alpha, red, green, blue);
             return true;
         }
 
-        private static bool tryParseRGBA(string input, out Color colour, bool throwException = false)
-        {
-            // Remove the * from the input.
-            colour = default;
-            input = input.TrimStart(rgbChar);
-
-            // Split the input string by commas.
-            string[] rgbaInputs = input.Split(ParserSettings.Separator);
-            string alphaInput = rgbaInputs.Length >= 4 ? rgbaInputs[3] : byte.MaxValue.ToString();
-
-            // If the input string has three or more inputs, parse it.
-            if (rgbaInputs.Length >= 3)
-            {
-                // Parse the red, green, blue, and alpha into a colour, then return true.
-                if (!byte.TryParse(rgbaInputs[0], NumberStyles.Integer, ParserSettings.FormatProvider, out byte red))
-                    return throwException ? throw new FormatException("Red was invalid, must be a valid byte.") : false;
-                if (!byte.TryParse(rgbaInputs[1], NumberStyles.Integer, ParserSettings.FormatProvider, out byte green))
-                    return throwException ? throw new FormatException("Green was invalid, must be a valid byte.") : false;
-                if (!byte.TryParse(rgbaInputs[2], NumberStyles.Integer, ParserSettings.FormatProvider, out byte blue))
-                    return throwException ? throw new FormatException("Blue was invalid, must be a valid byte.") : false;
-                if (!byte.TryParse(alphaInput, NumberStyles.Integer, ParserSettings.FormatProvider, out byte alpha))
-                    return throwException ? throw new FormatException("Alpha was invalid, must be a valid byte.") : false;
-                colour = Color.FromArgb(alpha, red, green, blue);
-                return true;
-            }
-
-            // Otherwise, throw an error or return false.
-            else
-                return throwException ? throw new FormatException("RGB colour must be in \"r, g, b\", or \"r, g, b, a\" format.") : false;
-        }
-        #endregion
+        // Otherwise, throw an error or return false.
+        else
+            return throwException ? throw new FormatException("RGB colour must be in \"r, g, b\", or \"r, g, b, a\" format.") : false;
     }
+    #endregion
 }

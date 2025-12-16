@@ -4,39 +4,6 @@
         <name>LiruGameHelper.MonoGame</name>
     </assembly>
     <members>
-        <member name="T:LiruGameHelper.MonoGame.Helpers.AspectRatioHelpers">
-            <summary> Helper class for adjusting sizes for aspect ratios. </summary>
-        </member>
-        <member name="M:LiruGameHelper.MonoGame.Helpers.AspectRatioHelpers.AdjustWidth(Microsoft.Xna.Framework.Point@,System.Single,System.Single)">
-            <summary> Adjusts the given <paramref name="size"/> so that the height stays the same and the width is adjusted based on the height and the given <paramref name="ratio"/>. </summary>
-            <param name="size"> The size to adjust. </param>
-            <param name="ratio"> The desired ratio. </param>
-            <param name="allowedDeviance"> The allowed deviation of the adjustment. If the adjustment amount is lower than this value, this function returns <c>false</c>. </param>
-            <returns> <c>true</c> if the adjustment was a success; otherwise <c>false</c> if the adjustment is lower than <paramref name="allowedDeviance"/>. </returns>
-        </member>
-        <member name="M:LiruGameHelper.MonoGame.Helpers.AspectRatioHelpers.AdjustHeight(Microsoft.Xna.Framework.Point@,System.Single,System.Single)">
-            <summary> Adjusts the given <paramref name="size"/> so that the width stays the same and the height is adjusted based on the width and the given <paramref name="ratio"/>. </summary>
-            <param name="size"> The size to adjust. </param>
-            <param name="ratio"> The desired ratio. </param>
-            <param name="allowedDeviance"> The allowed deviation of the adjustment. If the adjustment amount is lower than this value, this function returns <c>false</c>. </param>
-            <returns> <c>true</c> if the adjustment was a success; otherwise <c>false</c> if the adjustment is lower than <paramref name="allowedDeviance"/>. </returns>
-        </member>
-        <member name="M:LiruGameHelper.MonoGame.Helpers.AspectRatioHelpers.FitInBounds(Microsoft.Xna.Framework.Point@,Microsoft.Xna.Framework.Point,System.Single,System.Single)">
-            <summary> Adjust the given <paramref name="size"/> so that it fits into the given <paramref name="parentSize"/>, based on the given <paramref name="ratio"/>. </summary>
-            <param name="size"> The size to adjust. </param>
-            <param name="parentSize"> The size of the parent to fit into. </param>
-            <param name="ratio"> The desired ratio. This is compared against the ratio of the given <paramref name="parentSize"/> to determine how to fit the size into it. </param>
-            <param name="allowedDeviance"> The allowed deviation of the adjustment. If the adjustment amount is lower than this value, this function returns <c>false</c>. </param>
-            <returns> <c>true</c> if the adjustment was a success; otherwise <c>false</c> if the adjustment is lower than <paramref name="allowedDeviance"/>. </returns>
-        </member>
-        <member name="M:LiruGameHelper.MonoGame.Helpers.AspectRatioHelpers.FitAroundBounds(Microsoft.Xna.Framework.Point@,Microsoft.Xna.Framework.Point,System.Single,System.Single)">
-            <summary> Adjust the given <paramref name="size"/> so that it fits around the given <paramref name="parentSize"/>, based on the given <paramref name="ratio"/>. </summary>
-            <param name="size"> The size to adjust. </param>
-            <param name="parentSize"> The size of the parent to fit around. </param>
-            <param name="ratio"> The desired ratio. This is compared against the ratio of the given <paramref name="parentSize"/> to determine how to fit the size around it. </param>
-            <param name="allowedDeviance"> The allowed deviation of the adjustment. If the adjustment amount is lower than this value, this function returns <c>false</c>. </param>
-            <returns> <c>true</c> if the adjustment was a success; otherwise <c>false</c> if the adjustment is lower than <paramref name="allowedDeviance"/>. </returns>
-        </member>
         <member name="M:LiruGameHelper.MonoGame.Parsers.Colour.Parse(System.String)">
             <summary> Parses the given <paramref name="input"/> into a <see cref="T:Microsoft.Xna.Framework.Color"/>. </summary>
             <param name="input"> The input string. </param>
